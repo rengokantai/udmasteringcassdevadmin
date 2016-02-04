@@ -24,3 +24,27 @@ CREATE TABLE vt.a (
     PRIMARY KEY (id, datetime)
 ) WITH CLUSTERING ORDER BY (datetime DESC)
 ```
+
+- cp9
+copy from(copy csv to table), copy to(copy table content to csv)  
+we create a table a.csv:
+```
+id,datetime,event
+22,1993-01-01 11:22:22,fsd
+```
+Then copy to table a  
+```
+cqlsh:vt> copy a(id,datetime,event)from '/root/a.csv' with header=true and delimiter=',';
+```
+
+create index  
+```
+cqlsh:vt> create index aindex on a(datetime);
+```
+
+
+- cp11
+using TTL (second), time to live
+```
+INSERT INTO a(id,datetime,event)values('20','2016-01-01 12:12:12','eventc') using TTL 30;
+```
